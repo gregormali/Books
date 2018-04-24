@@ -26,7 +26,7 @@ namespace Books.WebAPI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
-            var connection = @"Server=(localdb)\mssqllocaldb;Database=MyDatabase;Trusted_Connection=True;ConnectRetryCount=0";
+            var connection = Configuration.GetValue<string>("ConnectionStrings:DefaultConnection");
             services.AddDbContext<BooksDbContext>(options => options.UseSqlServer(connection));
         }
 
@@ -36,12 +36,6 @@ namespace Books.WebAPI
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                #if DEBUG
-                app.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions
-                {
-                    HotModuleReplacement = true
-                });
-                #endif
             }
             else
             {
